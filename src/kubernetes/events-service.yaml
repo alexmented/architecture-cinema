@@ -43,18 +43,14 @@ spec:
             requests:
               cpu: "100m"
               memory: "128Mi"
-          readinessProbe:
+          startupProbe:
             httpGet:
               path: /api/events/health
               port: 8082
-            initialDelaySeconds: 5
+            initialDelaySeconds: 10
             periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /api/events/health
-              port: 8082
-            initialDelaySeconds: 15
-            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 30
       restartPolicy: Always
       imagePullSecrets:
         - name: dockerconfigjson

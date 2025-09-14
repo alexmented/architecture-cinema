@@ -25,7 +25,29 @@ async function proxyRequest(targetBaseUrl, request, reply, targetPath = '') {
     const base = new URL(targetBaseUrl);
     const fullUrl = base.origin + (targetPath || request.raw.url);
 
-    const upstream = await fetch(fullUrl, { method: request.method, headers: request.headers, body: request.body });
+    const headers = { ...request.headers };
+    delete headers['content-length'];
+    delete headers['host'];
+    delete headers['connection'];
+    delete headers['accept-encoding'];
+
+    const method = request.method?.toUpperCase() || 'GET';
+    const hasBody = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method);
+    let body;
+    if (hasBody) {
+      body = typeof request.body === 'string' ? request.body : JSON.stringify(request.body ?? {});
+      if (!headers['content-type']) {
+        headers['content-type'] = 'application/json';
+      }
+    }
+
+    const upstream = await fetch(fullUrl, {
+      method,
+      headers,
+      body,
+      // Required for Node 18+ undici when sending a body
+      ...(hasBody ? { duplex: 'half' } : {}),
+    });
 
     reply.status(upstream.status);
     const contentType = upstream.headers.get('content-type');
