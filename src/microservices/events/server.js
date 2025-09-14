@@ -69,7 +69,7 @@ fastify.post('/api/events/movie', async (request, reply) => {
   try {
     const event = buildEvent('movie', request.body || {});
     const result = await publish(TOPICS.movie, event);
-    reply.code(201).send(result);
+    reply.code(200).send(result);
   } catch (err) {
     request.log.error({ err }, 'Failed to publish movie event');
     reply.code(500).send({ error: 'Failed to publish movie event' });
@@ -80,7 +80,7 @@ fastify.post('/api/events/user', async (request, reply) => {
   try {
     const event = buildEvent('user', request.body || {});
     const result = await publish(TOPICS.user, event);
-    reply.code(201).send(result);
+    reply.code(200).send(result);
   } catch (err) {
     request.log.error({ err }, 'Failed to publish user event');
     reply.code(500).send({ error: 'Failed to publish user event' });
@@ -91,7 +91,7 @@ fastify.post('/api/events/payment', async (request, reply) => {
   try {
     const event = buildEvent('payment', request.body || {});
     const result = await publish(TOPICS.payment, event);
-    reply.code(201).send(result);
+    reply.code(200).send(result);
   } catch (err) {
     request.log.error({ err }, 'Failed to publish payment event');
     reply.code(500).send({ error: 'Failed to publish payment event' });
