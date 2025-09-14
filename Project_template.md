@@ -5,7 +5,7 @@
 1. Спроектируйте to be архитектуру КиноБездны, разделив всю систему на отдельные домены и организовав интеграционное взаимодействие и единую точку вызова сервисов.
 Результат представьте в виде контейнерной диаграммы в нотации С4.
 Добавьте ссылку на файл в этот шаблон
-[ссылка на файл](ссылка)
+[Task 1 C4](./artifacts/C4.yaml)
 
 
 ## Задание 2
@@ -59,6 +59,8 @@
 Необходимые тесты для проверки этого API вызываются при запуске npm run test:local из папки tests/postman 
 Приложите скриншот тестов и скриншот состояния топиков Kafka http://localhost:8090 
 
+[Task 2 Report Tests](./artifacts/task2.jpg)
+[Task 2 Topics](./artifacts/task2_topics.jpg)
 
 ## Задание 3
 
@@ -274,6 +276,10 @@ cat .docker/config.json | base64
 #### Шаг 3
 Добавьте сюда скриншота вывода при вызове https://cinemaabyss.example.com/api/movies и  скриншот вывода event-service после вызова тестов.
 
+[Task 3 API](./artifacts/task3_api.jpg)
+[Task 3 Event Service Logs 1](./artifacts/task3_logs.jpg)
+[Task 3 Event Service Logs 2](./artifacts/task3_logs2.jpg)
+
 
 ## Задание 4
 Для простоты дальнейшего обновления и развертывания вам как архитектуру необходимо так же реализовать helm-чарты для прокси-сервиса и проверить работу 
@@ -348,6 +354,7 @@ minikube tunnel
 Потом вызовите 
 https://cinemaabyss.example.com/api/movies
 и приложите скриншот развертывания helm и вывода https://cinemaabyss.example.com/api/movies
+[Task 4](./artifacts/task4.jpg)
 
 
 # Задание 5
@@ -368,7 +375,7 @@ kubectl label namespace cinemaabyss istio-injection=enabled --overwrite
 
 kubectl get namespace -L istio-injection
 
-kubectl apply -f .\src\kubernetes\circuit-breaker-config.yaml -n cinemaabyss
+kubectl apply -f ./src/kubernetes/circuit-breaker-config.yaml -n cinemaabyss
 
 ```
 
@@ -414,6 +421,7 @@ You can see 21 for the upstream_rq_pending_overflow value which means 21 calls s
 ```
 
 Приложите скриншот работы circuit breaker'а
+[Task 5](./artifacts/task5.jpg)
 
 Удаляем все
 ```bash
