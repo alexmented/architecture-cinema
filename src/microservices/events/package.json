@@ -1,0 +1,16 @@
+{
+  "name": "cinemaabyss-events",
+  "version": "1.0.0",
+  "description": "Events microservice for CinemaAbyss (Kafka mock)",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "fastify": "^4.28.1",
+    "pino": "^9.4.0",
+    "kafkajs": "^2.2.4"
+  }
+}
