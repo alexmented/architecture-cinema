@@ -1,0 +1,46 @@
+  @startuml
+    title CinemaAbyss Component Diagram
+    
+    top to bottom direction
+    
+    !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+    
+    Person(user, "user", "user")
+    
+    Container_Boundary(CinemaAbyss, "CinemaAbyss System") {
+    Container(frontend, "Web UI", "Ui for users")
+    
+    Container(eventService, "Event Service", "Kafka", "Pub/Sub")
+    Container(apiGateway, "Api Gateway", "Kong", "Auth/Routing")
+    
+    Container(userService, "User Service", "Fastify", "Управление пользователями")
+    ContainerDb(userDB, "User DB", "PostgreSQL", "Данные о пользователях")
+    
+    Container(movieService, "Movie Service", "Fastify", "Управление фильмами")
+    ContainerDb(movieS3, "Movie S3", "S3", "Хранилище фильмов")
+    ContainerDb(movieDB, "Movie DB", "PostgreSQL", "Данные о фильмах")
+    
+    Container(paymentService, "Payment Service", "Fastify", "Управление платежами и подписками")
+    ContainerDb(paymentDB, "Payment DB", "PostgreSQL", "Данные о подписках и платежах")
+  }
+    
+    System_Ext(ExtpaymentSystem, "Pay API", "Платежная система")
+    
+    Rel(user,frontend,"HTTP")
+    Rel(frontend,apiGateway,"HTTP")
+    
+    Rel(apiGateway,userService,"HTTP")
+    Rel(apiGateway,movieService,"HTTP")
+    Rel(apiGateway,paymentService,"HTTP")
+    
+    Rel(eventService, paymentService, "Pub/Sub events")
+    Rel(userService, eventService, "Pub/Sub events")
+    
+    Rel(userService,userDB,"read/write user data")
+    Rel(movieService,movieDB,"read/write")
+    Rel(movieService,movieS3,"read/write")  
+    Rel(paymentService,paymentDB,"read/write")
+    
+    Rel(paymentService, ExtpaymentSystem, "Processing payments")
+    
+    @enduml
